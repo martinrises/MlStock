@@ -7,33 +7,32 @@ import java.util.List;
 /**
  * Created by asus on 2016/11/20.
  */
-public abstract class AvgComputor<T extends Number> {
-    protected List<RawDataItem> mItems;
-    protected int mCnt;
+public abstract class AvgComputorForMin<T extends Number> {
+    protected List<RawDataItem> mRawItems;
 
     protected abstract T getFieldForAvg(int index);
 
     protected abstract T doAdd(T sum, int index);
 
-    protected abstract T doDivide();
+    protected abstract T doDivide(T sum , int cnt);
 
-    public T getAvgFromStart(int startIndex) {
-        int end = startIndex + mCnt;
+    public T getAvgFromStart(int startIndex, int cnt) {
+        int end = startIndex + cnt;
 
-        if(end > mItems.size()) {
+        if(end > mRawItems.size()) {
             return null;
         }
 
         T sum = getFieldForAvg(startIndex);
         for(int i = startIndex+1; i != end; i++) {
-            doAdd(sum, i);
+            sum = doAdd(sum, i);
         }
 
-        return doDivide();
+        return doDivide(sum, cnt);
     }
 
-    public T getAvgFromEnd(int endIndex) {
-        int start = endIndex - mCnt;
+    public T getAvgFromEnd(int endIndex, int cnt) {
+        int start = endIndex - cnt;
 
         if(start < -1) {
             return null;
@@ -41,9 +40,9 @@ public abstract class AvgComputor<T extends Number> {
 
         T sum = getFieldForAvg(endIndex);
         for(int i = endIndex - 1; i != start; i--){
-            doAdd(sum, i);
+            sum =doAdd(sum, i);
         }
 
-        return doDivide();
+        return doDivide(sum, cnt);
     }
 }

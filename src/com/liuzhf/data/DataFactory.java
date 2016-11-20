@@ -4,7 +4,8 @@ import com.liuzhf.data.entity.DataForSVM;
 import com.liuzhf.data.entity.DataPerDay;
 import com.liuzhf.data.entity.PriceForSVM;
 import com.liuzhf.data.entity.RawDataItem;
-import com.sun.javaws.security.AppContextUtil;
+import com.liuzhf.data.util.AvgComputorClosePriceForDay;
+import com.liuzhf.data.util.AvgComputorClosePriceForMin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,6 +23,7 @@ public class DataFactory {
         List<DataPerDay> dataPerDay = getDataPerDay(rawDataItems);
 
         List<PriceForSVM> pricesForSVM = getPriceForSVM(dataPerDay);
+
         return null;
     }
 
@@ -49,15 +51,33 @@ public class DataFactory {
         return result;
     }
 
-    private static List<PriceForSVM> getPriceForSVM(List<DataPerDay> rawDataItems) {
+    private static List<PriceForSVM> getPriceForSVM(List<DataPerDay> dataPerDays) {
         List<PriceForSVM> result = new ArrayList<>();
 
-// float mCurrentPrice, float mAvgPrice5m, float mAvgPrice15m, float mAvgPrice30m, float mAvgPrice60m, float mAvgPrice2h, float mAvgPrice1d, float mAvgPrice2d, float mAvgPrice4d, float mAvgPrice8d, float mAvgPrice16d, float mAvgPrice32d, float mAvgPrice64d, float mAvgPrice128d, float mAvgPrice256d, float mAvgPrice512d) {
+        AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
+        for(int i = dataPerDays.size()-1; i >= 0; i++) {
+            DataPerDay dataPerDay = dataPerDays.get(i);
+            List<RawDataItem> rawItems = dataPerDay.getRawItems();
+            AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);
+            result.add(new PriceForSVM(dataPerDay.getClosePrice(), // 当日收盘价
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 3), // 15min均价
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 6), // 30min avg
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 12), // 60min avg
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 24), // 2h avg
+                    avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 48), // 4h avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 2), // 2d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 4), // 4d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 8), // 8d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 16), // 16d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 32), // 32d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 64), // 64 avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 128), // 128 avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 256), // 256 avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 512) // 512 avg
+                            ));
+        }
 
-//        for(int i = rawDataItems.size()-1; i >= 0; i++) {
-//            result.add(new PriceForSVM(1f, ));
-//        }
-
-        return null;
+        return result;
     }
 }

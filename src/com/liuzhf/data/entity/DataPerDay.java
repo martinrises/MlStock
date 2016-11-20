@@ -1,17 +1,50 @@
 package com.liuzhf.data.entity;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by asus on 2016/11/20.
  */
 public class DataPerDay {
-    private List<RawDataItem> mItem;
+    private List<RawDataItem> mItems;
     private String mDate;
 
     public DataPerDay(String date, List<RawDataItem> items) {
         this.mDate = date;
-        this.mItem = items;
+        this.mItems = items;
+    }
+
+    public List<RawDataItem> getRawItems() {
+        return this.mItems;
+    }
+
+    public float getClosePrice() {
+        return mItems.get(mItems.size() - 1).getmClosingPx();
+    }
+
+    public float getOpenPrice() {
+        return mItems.get(0).getmOpeningPx();
+    }
+
+    public float getHighPrice() {
+        float highPrice = Float.MAX_VALUE;
+        for(int i = 0; i != mItems.size(); i++) {
+            float price = mItems.get(i).getmHighPx();
+            if(highPrice < price){
+                highPrice = price;
+            }
+        }
+        return highPrice;
+    }
+
+    public float getLowPrice() {
+        float lowPrice = Float.MAX_VALUE;
+        for(int i = 0; i != mItems.size(); i++) {
+            float price = mItems.get(i).getmHighPx();
+            if(lowPrice > price){
+                lowPrice = price;
+            }
+        }
+        return lowPrice;
     }
 }
