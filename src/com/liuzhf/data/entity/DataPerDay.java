@@ -31,7 +31,7 @@ public class DataPerDay {
     }
 
     public float getHighPrice() {
-        float highPrice = Float.MAX_VALUE;
+        float highPrice = Float.MIN_VALUE;
         for(int i = 0; i != mItems.size(); i++) {
             float price = mItems.get(i).getmHighPx();
             if(highPrice < price){

@@ -62,7 +62,7 @@ public class DataFactory {
 
         AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
         IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
-        for(int i = dataPerDays.size()-1; i >= 0; i++) {
+        for(int i = dataPerDays.size()-1; i >= 0; i--) {
             DataPerDay dataPerDay = dataPerDays.get(i);
             List<RawDataItem> rawItems = dataPerDay.getRawItems();
             AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);

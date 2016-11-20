@@ -172,4 +172,9 @@ public class PriceForSVM {
     public void setmIsUp(boolean mIsUp) {
         this.mIsUp = mIsUp;
     }
+
+    @Override
+    public String toString() {
+        return mDate + " >>> " + this.mIsUp;
+    }
 }
