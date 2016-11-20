@@ -7,24 +7,29 @@ import java.util.List;
 /**
  * Created by asus on 2016/11/20.
  */
-public class AvgComputorClosePriceForDay extends AvgComputorForDay<Float> {
+public class AvgComputorClosePriceForDay extends AvgComputor<DataPerDay, Float> {
 
     public AvgComputorClosePriceForDay(List<DataPerDay> items) {
-        this.mDataForDays = items;
+        this.mItems = items;
     }
 
     @Override
     protected Float getFieldForAvg(int index) {
-        return mDataForDays.get(index).getClosePrice();
+        return mItems.get(index).getClosePrice();
     }
 
     @Override
     protected Float doAdd(Float sum, int index) {
-        return sum + mDataForDays.get(index).getClosePrice();
+        return sum + mItems.get(index).getClosePrice();
     }
 
     @Override
     protected Float doDivide(Float sum, int cnt) {
         return sum / cnt;
+    }
+
+    @Override
+    protected Float getAvgNull() {
+        return 0f;
     }
 }

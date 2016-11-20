@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * Created by asus on 2016/11/20.
  */
-public class AvgComputorClosePriceForMin extends AvgComputorForMin<Float> {
+public class AvgComputorClosePriceForMin extends AvgComputor<RawDataItem, Float> {
 
     public AvgComputorClosePriceForMin(List<RawDataItem> items) {
-        this.mRawItems = items;
+        this.mItems = items;
     }
     @Override
     protected Float getFieldForAvg(int index) {
-        return mRawItems.get(index).getmClosingPx();
+        return mItems.get(index).getmClosingPx();
     }
 
     @Override
@@ -25,6 +25,11 @@ public class AvgComputorClosePriceForMin extends AvgComputorForMin<Float> {
     @Override
     protected Float doDivide(Float sum, int cnt) {
         return sum/cnt;
+    }
+
+    @Override
+    protected Float getAvgNull() {
+        return 0f;
     }
 
 }

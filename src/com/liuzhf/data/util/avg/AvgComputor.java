@@ -1,14 +1,12 @@
 package com.liuzhf.data.util.avg;
 
-import com.liuzhf.data.entity.DataPerDay;
-
 import java.util.List;
 
 /**
  * Created by asus on 2016/11/20.
  */
-public abstract class AvgComputorForDay<T> {
-    protected List<DataPerDay> mDataForDays;
+public abstract class AvgComputor<D, T extends Number> {
+    protected List<D> mItems;
 
     protected abstract T getFieldForAvg(int index);
 
@@ -16,11 +14,13 @@ public abstract class AvgComputorForDay<T> {
 
     protected abstract T doDivide(T sum , int cnt);
 
+    protected abstract T getAvgNull();
+
     public T getAvgFromStart(int startIndex, int cnt) {
         int end = startIndex + cnt;
 
-        if(end > mDataForDays.size()) {
-            return null;
+        if(end > mItems.size()) {
+            return getAvgNull();
         }
 
         T sum = getFieldForAvg(startIndex);
@@ -35,7 +35,7 @@ public abstract class AvgComputorForDay<T> {
         int start = endIndex - cnt;
 
         if(start < -1) {
-            return null;
+            return getAvgNull();
         }
 
         T sum = getFieldForAvg(endIndex);

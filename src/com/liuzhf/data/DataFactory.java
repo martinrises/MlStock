@@ -27,7 +27,25 @@ public class DataFactory {
 
         ArrayList<DataForSVM> dataForSVMs = new ArrayList<>();
         for(PriceForSVM price : pricesForSVM) {
-//            dataForSVMs.add(new DataForSVM());
+            dataForSVMs.add(new DataForSVM(price.getmDate(),
+                    price.ismIsUp(), // isup after 5days
+                    1f, // current price
+                    price.getmAvgPrice5m()/price.getmCurrentPrice(), // 5m
+                    price.getmAvgPrice15m()/price.getmCurrentPrice(), // 15m
+                    price.getmAvgPrice30m()/price.getmCurrentPrice(), // 30m
+                    price.getmAvgPrice60m()/price.getmCurrentPrice(), // 60m
+                    price.getmAvgPrice2h()/price.getmCurrentPrice(), // 2h
+                    price.getmAvgPrice1d()/price.getmCurrentPrice(), // 4h
+                    price.getmAvgPrice2d()/price.getmCurrentPrice(), // 2d
+                    price.getmAvgPrice4d()/price.getmCurrentPrice(), // 4d
+                    price.getmAvgPrice8d()/price.getmCurrentPrice(), // 8d
+                    price.getmAvgPrice16d()/price.getmCurrentPrice(), // 16d
+                    price.getmAvgPrice32d()/price.getmCurrentPrice(), // 32d
+                    price.getmAvgPrice64d()/price.getmCurrentPrice(), // 64d
+                    price.getmAvgPrice128d()/price.getmCurrentPrice(), // 128d
+                    price.getmAvgPrice256d()/price.getmCurrentPrice(), // 256d
+                    price.getmAvgPrice512d()/price.getmCurrentPrice() // 512d
+                    ));
         }
 
         return dataForSVMs;
