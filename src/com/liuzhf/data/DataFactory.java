@@ -59,7 +59,7 @@ public class DataFactory {
             DataPerDay dataPerDay = dataPerDays.get(i);
             List<RawDataItem> rawItems = dataPerDay.getRawItems();
             AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);
-            result.add(new PriceForSVM(dataPerDay.getClosePrice(), // 当日收盘价
+            result.add(new PriceForSVM(dataPerDay.getDate(), dataPerDay.getClosePrice(), // 当日收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 3), // 15min均价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 6), // 30min avg

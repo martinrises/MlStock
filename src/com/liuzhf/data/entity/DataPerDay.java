@@ -14,6 +14,10 @@ public class DataPerDay {
         this.mItems = items;
     }
 
+    public String getDate() {
+        return this.mDate;
+    }
+
     public List<RawDataItem> getRawItems() {
         return this.mItems;
     }
