@@ -4,8 +4,9 @@ import com.liuzhf.data.entity.DataForSVM;
 import com.liuzhf.data.entity.DataPerDay;
 import com.liuzhf.data.entity.PriceForSVM;
 import com.liuzhf.data.entity.RawDataItem;
-import com.liuzhf.data.util.AvgComputorClosePriceForDay;
-import com.liuzhf.data.util.AvgComputorClosePriceForMin;
+import com.liuzhf.data.util.avg.AvgComputorClosePriceForDay;
+import com.liuzhf.data.util.avg.AvgComputorClosePriceForMin;
+import com.liuzhf.data.util.check.IsUpChecker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +25,12 @@ public class DataFactory {
 
         List<PriceForSVM> pricesForSVM = getPriceForSVM(dataPerDay);
 
-        return null;
+        ArrayList<DataForSVM> dataForSVMs = new ArrayList<>();
+        for(PriceForSVM price : pricesForSVM) {
+//            dataForSVMs.add(new DataForSVM());
+        }
+
+        return dataForSVMs;
     }
 
     private static List<DataPerDay> getDataPerDay(List<RawDataItem> rawDataItems) {
@@ -55,6 +61,7 @@ public class DataFactory {
         List<PriceForSVM> result = new ArrayList<>();
 
         AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
+        IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
         for(int i = dataPerDays.size()-1; i >= 0; i++) {
             DataPerDay dataPerDay = dataPerDays.get(i);
             List<RawDataItem> rawItems = dataPerDay.getRawItems();
@@ -71,10 +78,11 @@ public class DataFactory {
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 8), // 8d avg
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 16), // 16d avg
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 32), // 32d avg
-                    avgComputorClosePriceForDay.getAvgFromEnd(i, 64), // 64 avg
-                    avgComputorClosePriceForDay.getAvgFromEnd(i, 128), // 128 avg
-                    avgComputorClosePriceForDay.getAvgFromEnd(i, 256), // 256 avg
-                    avgComputorClosePriceForDay.getAvgFromEnd(i, 512) // 512 avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 64), // 64d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 128), // 128d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 256), // 256d avg
+                    avgComputorClosePriceForDay.getAvgFromEnd(i, 512), // 512d avg
+                    isUpChecker.isUp(i, 5)// is up after 5 days;
                             ));
         }
 

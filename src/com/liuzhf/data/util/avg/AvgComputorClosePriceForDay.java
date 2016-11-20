@@ -1,4 +1,4 @@
-package com.liuzhf.data.util;
+package com.liuzhf.data.util.avg;
 
 import com.liuzhf.data.entity.DataPerDay;
 

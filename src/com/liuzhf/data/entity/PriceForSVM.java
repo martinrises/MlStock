@@ -6,8 +6,9 @@ package com.liuzhf.data.entity;
 public class PriceForSVM {
     private String mDate;
     private float mCurrentPrice, mAvgPrice5m, mAvgPrice15m, mAvgPrice30m, mAvgPrice60m, mAvgPrice2h, mAvgPrice1d, mAvgPrice2d, mAvgPrice4d, mAvgPrice8d, mAvgPrice16d, mAvgPrice32d, mAvgPrice64d, mAvgPrice128d, mAvgPrice256d, mAvgPrice512d;
+    private boolean mIsUp;
 
-    public PriceForSVM(String date, float mCurrentPrice, float mAvgPrice5m, float mAvgPrice15m, float mAvgPrice30m, float mAvgPrice60m, float mAvgPrice2h, float mAvgPrice1d, float mAvgPrice2d, float mAvgPrice4d, float mAvgPrice8d, float mAvgPrice16d, float mAvgPrice32d, float mAvgPrice64d, float mAvgPrice128d, float mAvgPrice256d, float mAvgPrice512d) {
+    public PriceForSVM(String date, float mCurrentPrice, float mAvgPrice5m, float mAvgPrice15m, float mAvgPrice30m, float mAvgPrice60m, float mAvgPrice2h, float mAvgPrice1d, float mAvgPrice2d, float mAvgPrice4d, float mAvgPrice8d, float mAvgPrice16d, float mAvgPrice32d, float mAvgPrice64d, float mAvgPrice128d, float mAvgPrice256d, float mAvgPrice512d, boolean isUp) {
         this.mDate = date;
         this.mCurrentPrice = mCurrentPrice;
         this.mAvgPrice5m = mAvgPrice5m;
@@ -25,6 +26,7 @@ public class PriceForSVM {
         this.mAvgPrice128d = mAvgPrice128d;
         this.mAvgPrice256d = mAvgPrice256d;
         this.mAvgPrice512d = mAvgPrice512d;
+        this.mIsUp = isUp;
     }
 
     public float getmCurrentPrice() {
@@ -161,5 +163,13 @@ public class PriceForSVM {
 
     public void setmDate(String mDate) {
         this.mDate = mDate;
+    }
+
+    public boolean ismIsUp() {
+        return mIsUp;
+    }
+
+    public void setmIsUp(boolean mIsUp) {
+        this.mIsUp = mIsUp;
     }
 }
