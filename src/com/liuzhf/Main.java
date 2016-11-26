@@ -1,10 +1,12 @@
 package com.liuzhf;
 
 import com.liuzhf.data.DataFactory;
-import com.liuzhf.data.DataReader;
-import com.liuzhf.data.entity.RawDataItem;
+import com.liuzhf.data.entity.DataForSVM;
+import com.liuzhf.svm.SvmTrainer;
+import libsvm.svm_model;
 
 import java.util.List;
+
 
 public class Main {
 
@@ -13,10 +15,11 @@ public class Main {
         /*
         获取svm训练需要的数据
           */
-        DataFactory.getDataForSVM();
+        List<DataForSVM> dataForSvmList = DataFactory.getDataForSVM();
 
         /*
         将数据传入svm训练机，得到合适的参数
          */
+        svm_model model = SvmTrainer.trainSvm(dataForSvmList);
     }
 }
