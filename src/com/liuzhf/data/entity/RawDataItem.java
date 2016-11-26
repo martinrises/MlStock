@@ -100,4 +100,18 @@ public class RawDataItem {
     public void setmTotalTurnover(long mTotalTurnover) {
         this.mTotalTurnover = mTotalTurnover;
     }
+
+    @Override
+    public String toString() {
+        return "RawDataItem{" +
+                "mDate='" + getmDate() + '\'' +
+                ", mTime='" + getmDate() + '\'' +
+                ", mHighPx=" + getmHighPx() +
+                ", mLowPx=" + getmLowPx() +
+                ", mOpeningPx=" + getmOpeningPx() +
+                ", mClosingPx=" + getmClosingPx() +
+                ", mTotalVolumeTraded=" + mTotalVolumeTraded +
+                ", mTotalTurnover=" + mTotalTurnover +
+                '}';
+    }
 }

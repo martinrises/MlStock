@@ -175,6 +175,25 @@ public class DataFeatured {
 
     @Override
     public String toString() {
-        return mDate + " >>> " + this.mIsUp;
+        return "DataFeatured{" +
+                "mDate='" + mDate + '\'' +
+                ", mCurrentPrice=" + mCurrentPrice +
+                ", mAvgPrice5m=" + mAvgPrice5m +
+                ", mAvgPrice15m=" + mAvgPrice15m +
+                ", mAvgPrice30m=" + mAvgPrice30m +
+                ", mAvgPrice60m=" + mAvgPrice60m +
+                ", mAvgPrice2h=" + mAvgPrice2h +
+                ", mAvgPrice1d=" + mAvgPrice1d +
+                ", mAvgPrice2d=" + mAvgPrice2d +
+                ", mAvgPrice4d=" + mAvgPrice4d +
+                ", mAvgPrice8d=" + mAvgPrice8d +
+                ", mAvgPrice16d=" + mAvgPrice16d +
+                ", mAvgPrice32d=" + mAvgPrice32d +
+                ", mAvgPrice64d=" + mAvgPrice64d +
+                ", mAvgPrice128d=" + mAvgPrice128d +
+                ", mAvgPrice256d=" + mAvgPrice256d +
+                ", mAvgPrice512d=" + mAvgPrice512d +
+                ", mIsUp=" + mIsUp +
+                '}';
     }
 }

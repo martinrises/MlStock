@@ -21,12 +21,14 @@ public class DataFactory {
     public static List<DataForSVM> getDataForSVM() {
 
         List<RawDataItem> rawDataItems = DataReader.readData("src/price.csv");
+        List<RawDataItem> rawDataItemsFiltered = filterRawData(rawDataItems); // filter wrong data
 
-        List<DataPerDay> dataPerDay = getDataPerDay(rawDataItems);
+        List<DataPerDay> dataPerDay = getDataPerDay(rawDataItemsFiltered);
 
-        List<DataFeatured> dataFeaturedList = getPriceForSVM(dataPerDay);
+        List<DataFeatured> dataFeaturedList = getFeaturedData(dataPerDay);
+        List<DataFeatured> dataFeaturedListFiltered = filterFeatureData(dataFeaturedList);
 
-        ArrayList<DataForSVM> dataForSvmList = dataFeaturedList.stream().map(dataFeatured -> new DataForSVM(dataFeatured.getmDate(),
+        ArrayList<DataForSVM> dataForSvmList = dataFeaturedListFiltered.stream().map(dataFeatured -> new DataForSVM(dataFeatured.getmDate(),
                 dataFeatured.ismIsUp(), // isup after 5days
                 1f, // current dataFeatured
                 dataFeatured.getmAvgPrice5m() / dataFeatured.getmCurrentPrice(), // 5m
@@ -47,6 +49,38 @@ public class DataFactory {
         )).collect(Collectors.toCollection(ArrayList::new));
 
         return dataForSvmList;
+    }
+    
+    private static List<DataFeatured> filterFeatureData(List<DataFeatured> dataFeaturedList) {
+        List<DataFeatured> dataFeaturedFiltered = dataFeaturedList.stream()
+                .filter(data -> data.getmAvgPrice5m() != 0
+                        && data.getmAvgPrice15m() != 0
+                        && data.getmAvgPrice15m() != 0
+                        && data.getmAvgPrice30m() != 0
+                        && data.getmAvgPrice60m() != 0
+                        && data.getmAvgPrice2h() != 0
+                        && data.getmAvgPrice1d() != 0
+                        && data.getmAvgPrice2d() != 0
+                        && data.getmAvgPrice4d() != 0
+                        && data.getmAvgPrice8d() != 0
+                        && data.getmAvgPrice16d() != 0
+                        && data.getmAvgPrice32d() != 0
+                        && data.getmAvgPrice64d() != 0
+                        && data.getmAvgPrice128d() != 0
+                        && data.getmAvgPrice256d() != 0
+                        && data.getmAvgPrice512d() != 0
+                ).collect(Collectors.toList());
+        return dataFeaturedFiltered;
+    }
+
+    // 有一些数据明显错误，将这些数据移除
+    private static List<RawDataItem> filterRawData(List<RawDataItem> dataList) {
+        final float THRESHOLD = 800f;
+
+        List<RawDataItem> dataListFiltered = dataList.stream()
+                .filter(data -> data.getmLowPx() > THRESHOLD && data.getmHighPx() > THRESHOLD && data.getmOpeningPx() > THRESHOLD && data.getmClosingPx() > THRESHOLD)
+                .collect(Collectors.toList());
+        return dataListFiltered;
     }
 
     private static List<DataPerDay> getDataPerDay(List<RawDataItem> rawDataItems) {
@@ -73,7 +107,7 @@ public class DataFactory {
         return result;
     }
 
-    private static List<DataFeatured> getPriceForSVM(List<DataPerDay> dataPerDays) {
+    private static List<DataFeatured> getFeaturedData(List<DataPerDay> dataPerDays) {
         List<DataFeatured> result = new ArrayList<>();
 
         AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
