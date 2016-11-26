@@ -2,7 +2,7 @@ package com.liuzhf.data;
 
 import com.liuzhf.data.entity.DataForSVM;
 import com.liuzhf.data.entity.DataPerDay;
-import com.liuzhf.data.entity.PriceForSVM;
+import com.liuzhf.data.entity.DataFeatured;
 import com.liuzhf.data.entity.RawDataItem;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForDay;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForMin;
@@ -11,6 +11,7 @@ import com.liuzhf.data.util.check.IsUpChecker;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by asus on 2016/11/19.
@@ -23,32 +24,29 @@ public class DataFactory {
 
         List<DataPerDay> dataPerDay = getDataPerDay(rawDataItems);
 
-        List<PriceForSVM> pricesForSVM = getPriceForSVM(dataPerDay);
+        List<DataFeatured> dataFeaturedList = getPriceForSVM(dataPerDay);
 
-        ArrayList<DataForSVM> dataForSVMs = new ArrayList<>();
-        for(PriceForSVM price : pricesForSVM) {
-            dataForSVMs.add(new DataForSVM(price.getmDate(),
-                    price.ismIsUp(), // isup after 5days
-                    1f, // current price
-                    price.getmAvgPrice5m()/price.getmCurrentPrice(), // 5m
-                    price.getmAvgPrice15m()/price.getmCurrentPrice(), // 15m
-                    price.getmAvgPrice30m()/price.getmCurrentPrice(), // 30m
-                    price.getmAvgPrice60m()/price.getmCurrentPrice(), // 60m
-                    price.getmAvgPrice2h()/price.getmCurrentPrice(), // 2h
-                    price.getmAvgPrice1d()/price.getmCurrentPrice(), // 4h
-                    price.getmAvgPrice2d()/price.getmCurrentPrice(), // 2d
-                    price.getmAvgPrice4d()/price.getmCurrentPrice(), // 4d
-                    price.getmAvgPrice8d()/price.getmCurrentPrice(), // 8d
-                    price.getmAvgPrice16d()/price.getmCurrentPrice(), // 16d
-                    price.getmAvgPrice32d()/price.getmCurrentPrice(), // 32d
-                    price.getmAvgPrice64d()/price.getmCurrentPrice(), // 64d
-                    price.getmAvgPrice128d()/price.getmCurrentPrice(), // 128d
-                    price.getmAvgPrice256d()/price.getmCurrentPrice(), // 256d
-                    price.getmAvgPrice512d()/price.getmCurrentPrice() // 512d
-                    ));
-        }
+        ArrayList<DataForSVM> dataForSvmList = dataFeaturedList.stream().map(dataFeatured -> new DataForSVM(dataFeatured.getmDate(),
+                dataFeatured.ismIsUp(), // isup after 5days
+                1f, // current dataFeatured
+                dataFeatured.getmAvgPrice5m() / dataFeatured.getmCurrentPrice(), // 5m
+                dataFeatured.getmAvgPrice15m() / dataFeatured.getmCurrentPrice(), // 15m
+                dataFeatured.getmAvgPrice30m() / dataFeatured.getmCurrentPrice(), // 30m
+                dataFeatured.getmAvgPrice60m() / dataFeatured.getmCurrentPrice(), // 60m
+                dataFeatured.getmAvgPrice2h() / dataFeatured.getmCurrentPrice(), // 2h
+                dataFeatured.getmAvgPrice1d() / dataFeatured.getmCurrentPrice(), // 4h
+                dataFeatured.getmAvgPrice2d() / dataFeatured.getmCurrentPrice(), // 2d
+                dataFeatured.getmAvgPrice4d() / dataFeatured.getmCurrentPrice(), // 4d
+                dataFeatured.getmAvgPrice8d() / dataFeatured.getmCurrentPrice(), // 8d
+                dataFeatured.getmAvgPrice16d() / dataFeatured.getmCurrentPrice(), // 16d
+                dataFeatured.getmAvgPrice32d() / dataFeatured.getmCurrentPrice(), // 32d
+                dataFeatured.getmAvgPrice64d() / dataFeatured.getmCurrentPrice(), // 64d
+                dataFeatured.getmAvgPrice128d() / dataFeatured.getmCurrentPrice(), // 128d
+                dataFeatured.getmAvgPrice256d() / dataFeatured.getmCurrentPrice(), // 256d
+                dataFeatured.getmAvgPrice512d() / dataFeatured.getmCurrentPrice() // 512d
+        )).collect(Collectors.toCollection(ArrayList::new));
 
-        return dataForSVMs;
+        return dataForSvmList;
     }
 
     private static List<DataPerDay> getDataPerDay(List<RawDataItem> rawDataItems) {
@@ -75,8 +73,8 @@ public class DataFactory {
         return result;
     }
 
-    private static List<PriceForSVM> getPriceForSVM(List<DataPerDay> dataPerDays) {
-        List<PriceForSVM> result = new ArrayList<>();
+    private static List<DataFeatured> getPriceForSVM(List<DataPerDay> dataPerDays) {
+        List<DataFeatured> result = new ArrayList<>();
 
         AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
         IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
@@ -84,7 +82,7 @@ public class DataFactory {
             DataPerDay dataPerDay = dataPerDays.get(i);
             List<RawDataItem> rawItems = dataPerDay.getRawItems();
             AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);
-            result.add(new PriceForSVM(dataPerDay.getDate(), dataPerDay.getClosePrice(), // 当日收盘价
+            result.add(new DataFeatured(dataPerDay.getDate(), dataPerDay.getClosePrice(), // 当日收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 3), // 15min均价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 6), // 30min avg
