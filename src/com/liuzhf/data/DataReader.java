@@ -48,6 +48,7 @@ public class DataReader {
 
         String[] temp = split[0].split(" ");
         System.arraycopy(temp, 0, result, 0, temp.length);
+        Utils.swap(split, 3, 4);
         System.arraycopy(split, 1, result, temp.length, split.length - 1);
         return result;
     }
