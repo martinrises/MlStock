@@ -38,8 +38,16 @@ public class SvmTrainer {
         //// traverse data to find the best parameter
         ////// check data
         svm_parameter param = new svm_parameter();
-        param.svm_type = C_SVC;
-        param.kernel_type = RBF;
+        param.probability = 1;
+        param.gamma = 0.5;
+        param.nu = 0.5;
+        param.C = 1;
+        param.svm_type = svm_parameter.C_SVC;
+        param.kernel_type = svm_parameter.LINEAR;
+        param.cache_size = 20000;
+        param.eps = 0.001;
+        String s = svm.svm_check_parameter(sp, param);
+        System.out.print("svm_check_parameter >>> " + s);
         svm_model model = svm.svm_train(sp, param);
         return model;
     }
@@ -57,6 +65,11 @@ public class SvmTrainer {
         float middFeature = (maxFeature + minFeature) / 2;
         float rangeOfFeature = maxFeature - minFeature;
 
+        List<DataForSVM> result = doScaleFeatureBase(dataList, middFeature, rangeOfFeature);
+        return new FeatureScaleResult(result, new FeatureScale(rangeOfFeature, middFeature));
+    }
+
+    private static List<DataForSVM> doScaleFeatureBase(List<DataForSVM> dataList, float middFeature, float rangeOfFeature) {
         List<DataForSVM> result = new ArrayList<>();
         for(DataForSVM data : dataList) {
             float[] features = data.getFeatures();
@@ -66,10 +79,17 @@ public class SvmTrainer {
             }
             result.add(new DataForSVM(data.getDate(), data.isUp(), featureScaled));
         }
+        return result;
+    }
+
+    public static FeatureScaleResult scaleData(List<DataForSVM> dataList, FeatureScale scale) {
+        float middFeature = scale.getmMiddValue();
+        float rangeOfFeature = scale.getmScaleRange();
+        List<DataForSVM> result = doScaleFeatureBase(dataList, middFeature, rangeOfFeature);
         return new FeatureScaleResult(result, new FeatureScale(rangeOfFeature, middFeature));
     }
 
-    private static svm_problem constructSvmProblem(List<DataForSVM> dataList) {
+    public static svm_problem constructSvmProblem(List<DataForSVM> dataList) {
         svm_problem sp = new svm_problem();
         sp.l = dataList.size();
         double[] spY = new double[sp.l];
