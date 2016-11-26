@@ -44,11 +44,16 @@ public class DataPerDay {
     public float getLowPrice() {
         float lowPrice = Float.MAX_VALUE;
         for(int i = 0; i != mItems.size(); i++) {
-            float price = mItems.get(i).getmHighPx();
+            float price = mItems.get(i).getmLowPx();
             if(lowPrice > price){
                 lowPrice = price;
             }
         }
         return lowPrice;
+    }
+
+    @Override
+    public String toString() {
+        return getOpenPrice() + "; " + getClosePrice() + "; " + getHighPrice() + "; " + getLowPrice();
     }
 }
