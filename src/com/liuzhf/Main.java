@@ -2,17 +2,11 @@ package com.liuzhf;
 
 import com.liuzhf.data.DataFactory;
 import com.liuzhf.data.entity.DataForSVM;
-import com.liuzhf.svm.SvmTrainer;
-import com.liuzhf.svm.entity.FeatureScale;
-import com.liuzhf.svm.entity.FeatureScaleResult;
-import com.liuzhf.svm.entity.SvmTrainResult;
-import libsvm.svm;
-import libsvm.svm_model;
-import libsvm.svm_node;
-import libsvm.svm_problem;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -31,30 +25,38 @@ public class Main {
         dataForTraining.addAll(dataForSvmList.subList(0, i));
         dataForTest.addAll(dataForSvmList.subList(i + 1, size));
 
-        /*
-        将数据传入svm训练机，得到合适的参数
-         */
-        SvmTrainResult result = SvmTrainer.trainSvm(dataForTraining);
+        // scale
+//        FeatureScaleResult trainDataScaled = SvmTrainer.scaleData(dataForTraining);
+//        FeatureScaleResult testDataScaled = SvmTrainer.scaleData(dataForTest, trainDataScaled.getmFeatureScale());
+//        List<DataForSVM> trainDataForOutput = trainDataScaled.getmDataScaled();
+//        List<DataForSVM> testDataForOutput = testDataScaled.getmDataScaled();
+        List<DataForSVM> trainDataForOutput = dataForTraining;
+        List<DataForSVM> testDataForOutput = dataForTest;
 
-        /*
-        预测
-         */
-        FeatureScale featureScale = result.getmScale();
-        FeatureScaleResult featureScaleResult = SvmTrainer.scaleData(dataForTest, featureScale);
-        svm_problem svm_problem = SvmTrainer.constructSvmProblem(featureScaleResult.getmDataScaled());
-        int cntRight = 0;
-        int cntPre = 0, cntPreDivided;
-        int cntRecall, cntRecallDevided;
-        double[] y = svm_problem.y;
-        svm_node[][] x = svm_problem.x;
-        int l = svm_problem.l;
-        svm_model svm_model = result.getmModle();
-        for(int mn = 0 ; mn != l; mn++) {
-            double v = svm.svm_predict(svm_model, x[mn]);
-            System.out.print(dataForTest.get(mn).getDate() + "，v : " + v +"\n");
+        // output files
+        checkAndWriteFile("train", trainDataForOutput);
+        checkAndWriteFile("test", testDataForOutput);
+    }
 
+    private static void checkAndWriteFile(String filename, List<DataForSVM> dataList) {
+        File f = new File("./" + filename);
+        if(!f.exists()) {
+            try {
+                f.createNewFile();
+
+                PrintWriter writer = new PrintWriter(filename, "UTF-8");
+                for(DataForSVM data : dataList) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(data.isUp() ? "1" : "-1").append(" ");
+                    float[] features = data.getFeatures();
+                    for(int i = 0; i != features.length; i++) {
+                        sb.append((i + 1)).append(":").append(features[i]).append(" ");
+                    }
+                    writer.println(sb.toString());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-//        System.out.print("The result is : " + cntRight * 100 / l + "%");
     }
 }

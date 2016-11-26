@@ -52,7 +52,7 @@ public class SvmTrainer {
         return model;
     }
 
-    private static FeatureScaleResult scaleData(List<DataForSVM> dataList) {
+    public static FeatureScaleResult scaleData(List<DataForSVM> dataList) {
 
         float maxFeature = Float.MIN_VALUE;
         float minFeature = Float.MAX_VALUE;
