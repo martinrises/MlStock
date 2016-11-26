@@ -20,6 +20,10 @@ public class DataForSVM {
         return mIsUp;
     }
 
+    public String getDate() {
+        return mDate;
+    }
+
     public float[] getFeatures() {
         return this.mFeatures;
     }
