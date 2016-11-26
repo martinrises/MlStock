@@ -101,7 +101,7 @@ public class SvmTrainer {
             svm_node[] nodes = new svm_node[data.getFeatures().length];
             for(int j = 0; j != nodes.length; j++) {
                 svm_node node = new svm_node();
-                node.index = j;
+                node.index = j + 1;
                 node.value = data.getFeatures()[j];
                 nodes[j] = node;
             }
