@@ -1,35 +1,50 @@
 package com.liuzhf.svm;
 
 import com.liuzhf.data.entity.DataForSVM;
-import libsvm.svm;
-import libsvm.svm_model;
-import libsvm.svm_node;
-import libsvm.svm_problem;
+import com.liuzhf.svm.entity.FeatureScale;
+import com.liuzhf.svm.entity.FeatureScaleResult;
+import com.liuzhf.svm.entity.SvmTrainResult;
+import libsvm.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static libsvm.svm_parameter.C_SVC;
+import static libsvm.svm_parameter.RBF;
 
 /**
  * Created by asus on 2016/11/26.
  */
 public class SvmTrainer {
 
-    public static svm_model trainSvm(List<DataForSVM> dataList) {
+    public static SvmTrainResult trainSvm(List<DataForSVM> dataList) {
 
         // scale data
-        List<DataForSVM> dataListScaled = scaleData(dataList);
+        FeatureScaleResult featureScaleResult = scaleData(dataList);
 
         // organize data for svm
-        svm_problem sp = constructSvmProblem(dataListScaled);
+        svm_problem sp = constructSvmProblem(featureScaleResult.getmDataScaled());
 
         // traverse data to find the most suitable kernel function
         //// traverse data to find the best parameter
         ////// check data
+        svm_model model = selectSvmModel(sp);
 
-        return null;
+        return new SvmTrainResult(model, featureScaleResult.getmFeatureScale());
     }
 
-    private static List<DataForSVM> scaleData(List<DataForSVM> dataList) {
+    private static svm_model selectSvmModel(svm_problem sp) {
+        // traverse data to find the most suitable kernel function
+        //// traverse data to find the best parameter
+        ////// check data
+        svm_parameter param = new svm_parameter();
+        param.svm_type = C_SVC;
+        param.kernel_type = RBF;
+        svm_model model = svm.svm_train(sp, param);
+        return model;
+    }
+
+    private static FeatureScaleResult scaleData(List<DataForSVM> dataList) {
 
         float maxFeature = Float.MIN_VALUE;
         float minFeature = Float.MAX_VALUE;
@@ -51,7 +66,7 @@ public class SvmTrainer {
             }
             result.add(new DataForSVM(data.getDate(), data.isUp(), featureScaled));
         }
-        return result;
+        return new FeatureScaleResult(result, new FeatureScale(rangeOfFeature, middFeature));
     }
 
     private static svm_problem constructSvmProblem(List<DataForSVM> dataList) {

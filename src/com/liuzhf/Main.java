@@ -3,6 +3,7 @@ package com.liuzhf;
 import com.liuzhf.data.DataFactory;
 import com.liuzhf.data.entity.DataForSVM;
 import com.liuzhf.svm.SvmTrainer;
+import com.liuzhf.svm.entity.SvmTrainResult;
 import libsvm.svm_model;
 
 import java.util.List;
@@ -20,6 +21,6 @@ public class Main {
         /*
         将数据传入svm训练机，得到合适的参数
          */
-        svm_model model = SvmTrainer.trainSvm(dataForSvmList);
+        SvmTrainResult result = SvmTrainer.trainSvm(dataForSvmList);
     }
 }
