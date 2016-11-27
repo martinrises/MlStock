@@ -22,9 +22,9 @@ public class Main {
         List<DataForSVM> dataForTraining = new ArrayList<>();
         List<DataForSVM> dataForTest = new ArrayList<>();
         int size = dataForSvmList.size();
-        int i = size * 7 / 10;
-        dataForTraining.addAll(dataForSvmList.subList(0, i));
-        dataForTest.addAll(dataForSvmList.subList(i + 1, size));
+        int i = size * 3 / 10;
+        dataForTest.addAll(dataForSvmList.subList(0, i));
+        dataForTraining.addAll(dataForSvmList.subList(i + 1, size));
 
         // scale
 //        FeatureScaleResult trainDataScaled = SvmTrainer.scaleData(dataForTraining);
