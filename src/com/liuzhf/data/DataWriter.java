@@ -14,11 +14,12 @@ public class DataWriter {
 
     public static void checkAndWriteFile(String filename, List<DataForSVM> dataList) {
         File f = new File("./" + filename);
+        PrintWriter writer = null;
         if(!f.exists()) {
             try {
                 f.createNewFile();
 
-                PrintWriter writer = new PrintWriter(filename, "UTF-8");
+                writer = new PrintWriter(filename, "UTF-8");
                 for(DataForSVM data : dataList) {
                     StringBuilder sb = new StringBuilder();
                     sb.append(data.isUp() ? "1" : "-1").append(" ");
@@ -28,8 +29,13 @@ public class DataWriter {
                     }
                     writer.println(sb.toString());
                 }
+                writer.flush();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if(writer != null) {
+                    writer.close();
+                }
             }
         }
     }
