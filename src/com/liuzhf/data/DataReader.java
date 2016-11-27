@@ -42,13 +42,16 @@ public class DataReader {
     }
 
     private static String[] splitStr(String str) {
+        //date,TotalVolumeTraded,OpeningPx,LowPx,HighPx,ClosingPx,TotalTurnover
         String[] split = str.split(",");
-        Utils.swap(split, 3, 5);
+        Utils.swap(split, 1, 5);
         String[] result = new String[split.length + 1];
 
         String[] temp = split[0].split(" ");
+        // date , close, open, low, high, volume, turnover
         System.arraycopy(temp, 0, result, 0, temp.length);
-        Utils.swap(split, 3, 4);
+        Utils.swap(split, 1, 4);
+        Utils.swap(split, 2, 3);
         System.arraycopy(split, 1, result, temp.length, split.length - 1);
         return result;
     }
