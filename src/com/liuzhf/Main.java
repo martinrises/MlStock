@@ -4,9 +4,6 @@ import com.liuzhf.data.DataFactory;
 import com.liuzhf.data.DataWriter;
 import com.liuzhf.data.entity.DataForSVM;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 

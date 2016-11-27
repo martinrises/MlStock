@@ -6,6 +6,8 @@ import com.liuzhf.data.entity.DataFeatured;
 import com.liuzhf.data.entity.RawDataItem;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForDay;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForMin;
+import com.liuzhf.data.util.avg.AvgComputorVolumeForDay;
+import com.liuzhf.data.util.avg.AvgComputorVolumeForMin;
 import com.liuzhf.data.util.check.IsUpChecker;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class DataFactory {
 
         ArrayList<DataForSVM> dataForSvmList = dataFeaturedListFiltered.stream().map(dataFeatured -> new DataForSVM(dataFeatured.getmDate(),
                 dataFeatured.ismIsUp(), // isup after 5days
-                1f, // current dataFeatured
+                1d, // current dataFeatured
                 dataFeatured.getmAvgPrice5m() / dataFeatured.getmCurrentPrice(), // 5m
                 dataFeatured.getmAvgPrice15m() / dataFeatured.getmCurrentPrice(), // 15m
                 dataFeatured.getmAvgPrice30m() / dataFeatured.getmCurrentPrice(), // 30m
@@ -45,7 +47,24 @@ public class DataFactory {
                 dataFeatured.getmAvgPrice64d() / dataFeatured.getmCurrentPrice(), // 64d
                 dataFeatured.getmAvgPrice128d() / dataFeatured.getmCurrentPrice(), // 128d
                 dataFeatured.getmAvgPrice256d() / dataFeatured.getmCurrentPrice(), // 256d
-                dataFeatured.getmAvgPrice512d() / dataFeatured.getmCurrentPrice() // 512d
+                dataFeatured.getmAvgPrice512d() / dataFeatured.getmCurrentPrice(), // 512d
+
+                1d, // current volume
+                dataFeatured.getmAvgVolume5m() / dataFeatured.getmCurrentVolume(), // 5m
+                dataFeatured.getmAvgVolume15m() / dataFeatured.getmCurrentVolume(), // 15m
+                dataFeatured.getmAvgVolume30m() / dataFeatured.getmCurrentVolume(), // 30m
+                dataFeatured.getmAvgVolume60m() / dataFeatured.getmCurrentVolume(), // 60m
+                dataFeatured.getmAvgVolume2h() / dataFeatured.getmCurrentVolume(), // 2h
+                dataFeatured.getmAvgVolume1d() / dataFeatured.getmCurrentVolume(), // 1d
+                dataFeatured.getmAvgVolume2d() / dataFeatured.getmCurrentVolume(), // 2d
+                dataFeatured.getmAvgVolume4d() / dataFeatured.getmCurrentVolume(), // 4d
+                dataFeatured.getmAvgVolume8d() / dataFeatured.getmCurrentVolume(), // 8d
+                dataFeatured.getmAvgVolume16d() / dataFeatured.getmCurrentVolume(), // 16d
+                dataFeatured.getmAvgVolume32d() / dataFeatured.getmCurrentVolume(), // 32d
+                dataFeatured.getmAvgVolume64d() / dataFeatured.getmCurrentVolume(), // 64d
+                dataFeatured.getmAvgVolume128d() / dataFeatured.getmCurrentVolume(), // 128d
+                dataFeatured.getmAvgVolume256d() / dataFeatured.getmCurrentVolume(), // 256d
+                dataFeatured.getmAvgVolume512d() / dataFeatured.getmCurrentVolume() // 512d
         )).collect(Collectors.toCollection(ArrayList::new));
 
         return dataForSvmList;
@@ -111,11 +130,13 @@ public class DataFactory {
         List<DataFeatured> result = new ArrayList<>();
 
         AvgComputorClosePriceForDay avgComputorClosePriceForDay = new AvgComputorClosePriceForDay(dataPerDays);
+        AvgComputorVolumeForDay avgComputorVolumeForDay = new AvgComputorVolumeForDay(dataPerDays);
         IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
         for(int i = dataPerDays.size()-1; i >= 0; i--) {
             DataPerDay dataPerDay = dataPerDays.get(i);
             List<RawDataItem> rawItems = dataPerDay.getRawItems();
             AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);
+            AvgComputorVolumeForMin avgComputorVolumeForMin = new AvgComputorVolumeForMin(rawItems);
             result.add(new DataFeatured(dataPerDay.getDate(), dataPerDay.getClosePrice(), // 当日收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 1, 3), // 15min均价
@@ -132,6 +153,24 @@ public class DataFactory {
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 128), // 128d avg
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 256), // 256d avg
                     avgComputorClosePriceForDay.getAvgFromEnd(i, 512), // 512d avg
+
+                    dataPerDay.getTotalVolumeTraded(), // 当日的成交量
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 3), // 15min均价
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 6), // 30min avg
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 12), // 60min avg
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 24), // 2h avg
+                    avgComputorVolumeForMin.getAvgFromEnd(rawItems.size() - 2, 48), // 4h avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 2), // 2d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 4), // 4d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 8), // 8d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 16), // 16d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 32), // 32d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 64), // 64d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 128), // 128d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 256), // 256d avg
+                    avgComputorVolumeForDay.getAvgFromEnd(i, 512), // 512d avg
+
                     isUpChecker.isUp(i, 5)// is up after 5 days;
                             ));
         }

@@ -4,15 +4,15 @@ package com.liuzhf.svm.entity;
  * Created by asus on 2016/11/26.
  */
 public class FeatureScale {
-    private float mScaleRange;
-    private float mMiddValue;
+    private double mScaleRange;
+    private double mMiddValue;
 
-    public FeatureScale(float scaleRange, float middValue) {
+    public FeatureScale(double scaleRange, double middValue) {
         this.mScaleRange = scaleRange;
         this.mMiddValue = middValue;
     }
 
-    public float getmScaleRange() {
+    public double getmScaleRange() {
         return mScaleRange;
     }
 
@@ -20,7 +20,7 @@ public class FeatureScale {
         this.mScaleRange = mScaleRange;
     }
 
-    public float getmMiddValue() {
+    public double getmMiddValue() {
         return mMiddValue;
     }
 

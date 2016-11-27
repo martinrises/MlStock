@@ -23,7 +23,7 @@ public class DataWriter {
                 for(DataForSVM data : dataList) {
                     StringBuilder sb = new StringBuilder();
                     sb.append(data.isUp() ? "1" : "-1").append(" ");
-                    float[] features = data.getFeatures();
+                    double[] features = data.getFeatures();
                     for(int i = 0; i != features.length; i++) {
                         sb.append((i + 1)).append(":").append(features[i]).append(" ");
                     }
@@ -52,7 +52,7 @@ public class DataWriter {
                     StringBuilder sb = new StringBuilder();
                     sb.append(data.getDate()).append(" ");
                     sb.append(data.isUp() ? "1" : "-1").append(" ");
-                    float[] features = data.getFeatures();
+                    double[] features = data.getFeatures();
                     for(int i = 0; i != features.length; i++) {
                         sb.append((i + 1)).append(":").append(features[i]).append(" ");
                     }

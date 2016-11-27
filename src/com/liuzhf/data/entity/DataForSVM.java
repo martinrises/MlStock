@@ -6,11 +6,11 @@ import java.util.Arrays;
  * Created by asus on 2016/11/19.
  */
 public class DataForSVM {
-    private float[] mFeatures;
+    private double[] mFeatures;
     private boolean mIsUp;
     private String mDate;
 
-    public DataForSVM(String date, boolean isUp, float... prices) {
+    public DataForSVM(String date, boolean isUp, double... prices) {
         mDate = date;
         mIsUp = isUp;
         mFeatures = prices;
@@ -24,7 +24,7 @@ public class DataForSVM {
         return mDate;
     }
 
-    public float[] getFeatures() {
+    public double[] getFeatures() {
         return this.mFeatures;
     }
 

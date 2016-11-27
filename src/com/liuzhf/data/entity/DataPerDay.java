@@ -52,6 +52,22 @@ public class DataPerDay {
         return lowPrice;
     }
 
+    public double getTotalVolumeTraded() {
+        double totalVolumeTraded= 0;
+        for(int i = 0; i != mItems.size(); i++) {
+            totalVolumeTraded += mItems.get(i).getmTotalVolumeTraded();
+        }
+        return totalVolumeTraded;
+    }
+
+    public double getTotalTurnover() {
+        double totalTurnover= 0;
+        for(int i = 0; i != mItems.size(); i++) {
+            totalTurnover += mItems.get(i).getmTotalTurnover();
+        }
+        return totalTurnover;
+    }
+
     @Override
     public String toString() {
         return getOpenPrice() + "; " + getClosePrice() + "; " + getHighPrice() + "; " + getLowPrice();

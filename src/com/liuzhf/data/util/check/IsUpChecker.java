@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class IsUpChecker {
 
-    private static final float SCALE = 0.7f;
+    private static final float SCALE = 0.2f;
 
     private List<DataPerDay> mDataPerDays;
 

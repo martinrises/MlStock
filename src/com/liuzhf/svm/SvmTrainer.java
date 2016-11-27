@@ -54,26 +54,26 @@ public class SvmTrainer {
 
     public static FeatureScaleResult scaleData(List<DataForSVM> dataList) {
 
-        float maxFeature = Float.MIN_VALUE;
-        float minFeature = Float.MAX_VALUE;
+        double maxFeature = Float.MIN_VALUE;
+        double minFeature = Float.MAX_VALUE;
         for(DataForSVM data: dataList) {
-            for(float feature : data.getFeatures()) {
+            for(double feature : data.getFeatures()) {
                 maxFeature = Math.max(maxFeature, feature);
                 minFeature = Math.min(minFeature, feature);
             }
         }
-        float middFeature = (maxFeature + minFeature) / 2;
-        float rangeOfFeature = maxFeature - minFeature;
+        double middFeature = (maxFeature + minFeature) / 2;
+        double rangeOfFeature = maxFeature - minFeature;
 
         List<DataForSVM> result = doScaleFeatureBase(dataList, middFeature, rangeOfFeature);
         return new FeatureScaleResult(result, new FeatureScale(rangeOfFeature, middFeature));
     }
 
-    private static List<DataForSVM> doScaleFeatureBase(List<DataForSVM> dataList, float middFeature, float rangeOfFeature) {
+    private static List<DataForSVM> doScaleFeatureBase(List<DataForSVM> dataList, double middFeature, double rangeOfFeature) {
         List<DataForSVM> result = new ArrayList<>();
         for(DataForSVM data : dataList) {
-            float[] features = data.getFeatures();
-            float[] featureScaled = new float[features.length];
+            double[] features = data.getFeatures();
+            double[] featureScaled = new double[features.length];
             for(int i = 0; i != features.length; i++) {
                 featureScaled[i] = (features[i] - middFeature) / rangeOfFeature;
             }
@@ -83,8 +83,8 @@ public class SvmTrainer {
     }
 
     public static FeatureScaleResult scaleData(List<DataForSVM> dataList, FeatureScale scale) {
-        float middFeature = scale.getmMiddValue();
-        float rangeOfFeature = scale.getmScaleRange();
+        double middFeature = scale.getmMiddValue();
+        double rangeOfFeature = scale.getmScaleRange();
         List<DataForSVM> result = doScaleFeatureBase(dataList, middFeature, rangeOfFeature);
         return new FeatureScaleResult(result, new FeatureScale(rangeOfFeature, middFeature));
     }
