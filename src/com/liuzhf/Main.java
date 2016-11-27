@@ -37,5 +37,6 @@ public class Main {
         // output files
         DataWriter.checkAndWriteFile("train", trainDataForOutput);
         DataWriter.checkAndWriteFile("test", testDataForOutput);
+        DataWriter.checkAndWriteFileWithDate("test_date", testDataForOutput);
     }
 }

@@ -8,6 +8,9 @@ import java.util.List;
  * Created by asus on 2016/11/20.
  */
 public class IsUpChecker {
+
+    private static final float SCALE = 0.7f;
+
     private List<DataPerDay> mDataPerDays;
 
     public IsUpChecker(List<DataPerDay> mDataPerDays) {
@@ -27,6 +30,6 @@ public class IsUpChecker {
             lowPrice = Math.min(lowPrice, dataPerDay.getLowPrice());
         }
 
-        return ((mDataPerDays.get(index + daysAfter).getClosePrice() - mDataPerDays.get(index).getClosePrice()) > ((highPrice - lowPrice) / 3));
+        return ((mDataPerDays.get(index + daysAfter).getClosePrice() - mDataPerDays.get(index).getClosePrice()) > ((highPrice - lowPrice) * SCALE));
     }
 }
