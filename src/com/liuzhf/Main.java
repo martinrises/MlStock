@@ -1,6 +1,7 @@
 package com.liuzhf;
 
 import com.liuzhf.data.DataFactory;
+import com.liuzhf.data.DataWriter;
 import com.liuzhf.data.entity.DataForSVM;
 
 import java.io.File;
@@ -34,29 +35,7 @@ public class Main {
         List<DataForSVM> testDataForOutput = dataForTest;
 
         // output files
-        checkAndWriteFile("train", trainDataForOutput);
-        checkAndWriteFile("test", testDataForOutput);
-    }
-
-    private static void checkAndWriteFile(String filename, List<DataForSVM> dataList) {
-        File f = new File("./" + filename);
-        if(!f.exists()) {
-            try {
-                f.createNewFile();
-
-                PrintWriter writer = new PrintWriter(filename, "UTF-8");
-                for(DataForSVM data : dataList) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(data.isUp() ? "1" : "-1").append(" ");
-                    float[] features = data.getFeatures();
-                    for(int i = 0; i != features.length; i++) {
-                        sb.append((i + 1)).append(":").append(features[i]).append(" ");
-                    }
-                    writer.println(sb.toString());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        DataWriter.checkAndWriteFile("train", trainDataForOutput);
+        DataWriter.checkAndWriteFile("test", testDataForOutput);
     }
 }
