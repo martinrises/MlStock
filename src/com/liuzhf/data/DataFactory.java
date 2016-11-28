@@ -9,6 +9,7 @@ import com.liuzhf.data.util.avg.AvgComputorClosePriceForMin;
 import com.liuzhf.data.util.avg.AvgComputorVolumeForDay;
 import com.liuzhf.data.util.avg.AvgComputorVolumeForMin;
 import com.liuzhf.data.util.check.IsUpChecker;
+import com.liuzhf.data.util.validate.DataValidator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +24,8 @@ public class DataFactory {
     public static List<DataForSVM> getDataForSVM() {
 
         List<RawDataItem> rawDataItems = DataReader.readData("src/price.csv");
+        DataValidator.validateRawDataItems(rawDataItems);
+
         List<RawDataItem> rawDataItemsFiltered = filterRawData(rawDataItems); // filter wrong data
 
         List<DataPerDay> dataPerDay = getDataPerDay(rawDataItemsFiltered);

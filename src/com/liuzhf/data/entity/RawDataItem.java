@@ -105,13 +105,13 @@ public class RawDataItem {
     public String toString() {
         return "RawDataItem{" +
                 "mDate='" + getmDate() + '\'' +
-                ", mTime='" + getmDate() + '\'' +
+                ", mTime='" + getmTime() + '\'' +
                 ", mHighPx=" + getmHighPx() +
                 ", mLowPx=" + getmLowPx() +
                 ", mOpeningPx=" + getmOpeningPx() +
                 ", mClosingPx=" + getmClosingPx() +
-                ", mTotalVolumeTraded=" + mTotalVolumeTraded +
-                ", mTotalTurnover=" + mTotalTurnover +
+                ", mTotalVolumeTraded=" + getmTotalVolumeTraded() +
+                ", mTotalTurnover=" + getmTotalTurnover() +
                 '}';
     }
 }
