@@ -1,6 +1,7 @@
 package com.liuzhf.data.util.validate;
 
 import com.liuzhf.data.DataFactory;
+import com.liuzhf.data.entity.DataPerDay;
 import com.liuzhf.data.entity.RawDataItem;
 
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class DataValidator {
     }
 
     public static void validateRawDataItemsFilted(List<RawDataItem> rawDataItems) {
-        // 2015-07-01 09:35:00,4135643600.0,4214.1508,0.0008,4241.2778,4239.6268,58455743700.0
+
         for (Iterator<RawDataItem> iterator = rawDataItems.iterator(); iterator.hasNext(); ) {
             RawDataItem rawDataItem = iterator.next();
             if(rawDataItem.getmDate().equals("2015-07-01") && rawDataItem.getmTime().equals("09:35:00")) {
@@ -40,6 +41,23 @@ public class DataValidator {
                         || rawDataItem.getmClosingPx() <= DataFactory.PRICE_THRESHOLD
                         || rawDataItem.getmTotalVolumeTraded() <= DataFactory.PRICE_THRESHOLD) {
                     throw new IllegalStateException("Something is wrong with filtering RawDataItems");
+                }
+                break;
+            }
+        }
+    }
+
+    public static void validateDataPerDay(List<DataPerDay> dataPerDay) {
+        for (Iterator<DataPerDay> iterator = dataPerDay.iterator(); iterator.hasNext(); ) {
+            DataPerDay data = iterator.next();
+            if(data.getDate().equals("2016-01-22")) {
+
+                if(data.getOpenPrice() != 2911.1116f ||
+                        data.getClosePrice() != 2916.5615f ||
+                        data.getHighPrice() != 2931.3586f ||
+                        data.getLowPrice() != 2851.7327f ||
+                        data.getTotalVolumeTraded() != 1.59810734E10d) {
+                    throw new IllegalStateException("Something is wrong with getting DataPerDays");
                 }
                 break;
             }

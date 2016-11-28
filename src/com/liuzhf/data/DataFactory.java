@@ -30,6 +30,7 @@ public class DataFactory {
         DataValidator.validateRawDataItemsFilted(rawDataItemsFiltered);
 
         List<DataPerDay> dataPerDay = getDataPerDay(rawDataItemsFiltered);
+        DataValidator.validateDataPerDay(dataPerDay);
 
         List<DataFeatured> dataFeaturedList = getFeaturedData(dataPerDay);
         List<DataFeatured> dataFeaturedListFiltered = filterFeatureData(dataFeaturedList);

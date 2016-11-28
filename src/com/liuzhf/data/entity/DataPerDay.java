@@ -70,6 +70,13 @@ public class DataPerDay {
 
     @Override
     public String toString() {
-        return getOpenPrice() + "; " + getClosePrice() + "; " + getHighPrice() + "; " + getLowPrice();
+        return "DataPerDay{" +
+                "date : " + getDate() + ", " +
+                "open : " + getOpenPrice() + ", " +
+                "close : " + getClosePrice() + ", " +
+                "high : " + getHighPrice() + ", " +
+                "low : " + getLowPrice() + ", " +
+                "volume : " + getTotalVolumeTraded() +
+                '}';
     }
 }
