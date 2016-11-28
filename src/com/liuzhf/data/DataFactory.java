@@ -27,6 +27,7 @@ public class DataFactory {
         DataValidator.validateRawDataItems(rawDataItems);
 
         List<RawDataItem> rawDataItemsFiltered = filterRawData(rawDataItems); // filter wrong data
+        DataValidator.validateRawDataItemsFilted(rawDataItemsFiltered);
 
         List<DataPerDay> dataPerDay = getDataPerDay(rawDataItemsFiltered);
 
@@ -96,11 +97,11 @@ public class DataFactory {
     }
 
     // 有一些数据明显错误，将这些数据移除
+    public static final float PRICE_THRESHOLD = 800f;
     private static List<RawDataItem> filterRawData(List<RawDataItem> dataList) {
-        final float THRESHOLD = 800f;
 
         List<RawDataItem> dataListFiltered = dataList.stream()
-                .filter(data -> data.getmLowPx() > THRESHOLD && data.getmHighPx() > THRESHOLD && data.getmOpeningPx() > THRESHOLD && data.getmClosingPx() > THRESHOLD)
+                .filter(data -> data.getmLowPx() > PRICE_THRESHOLD && data.getmHighPx() > PRICE_THRESHOLD && data.getmOpeningPx() > PRICE_THRESHOLD && data.getmClosingPx() > PRICE_THRESHOLD)
                 .collect(Collectors.toList());
         return dataListFiltered;
     }
