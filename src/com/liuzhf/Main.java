@@ -23,17 +23,9 @@ public class Main {
         dataForTest.addAll(dataForSvmList.subList(0, i));
         dataForTraining.addAll(dataForSvmList.subList(i + 1, size));
 
-        // scale
-//        FeatureScaleResult trainDataScaled = SvmTrainer.scaleData(dataForTraining);
-//        FeatureScaleResult testDataScaled = SvmTrainer.scaleData(dataForTest, trainDataScaled.getmFeatureScale());
-//        List<DataForSVM> trainDataForOutput = trainDataScaled.getmDataScaled();
-//        List<DataForSVM> testDataForOutput = testDataScaled.getmDataScaled();
-        List<DataForSVM> trainDataForOutput = dataForTraining;
-        List<DataForSVM> testDataForOutput = dataForTest;
-
         // output files
-        DataWriter.checkAndWriteFile("train", trainDataForOutput);
-        DataWriter.checkAndWriteFile("test", testDataForOutput);
-        DataWriter.checkAndWriteFileWithDate("test_date", testDataForOutput);
+        DataWriter.checkAndWriteFile("train", dataForTraining);
+        DataWriter.checkAndWriteFile("test", dataForTest);
+        DataWriter.checkAndWriteFileWithDate("test_date", dataForTraining);
     }
 }
