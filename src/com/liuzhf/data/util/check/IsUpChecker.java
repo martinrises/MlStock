@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class IsUpChecker {
 
-    private static final float SCALE = 0.2f;
+    private static final float SCALE = 0.3f;
     public static final String KEY_HIGH_PX = "high_price";
     public static final String KEY_LOW_PX = "low_price";
 
@@ -22,7 +22,7 @@ public class IsUpChecker {
     }
 
     /*
-    从今天，向前倒序
+    从以前到现在
      */
     public boolean isUp(int index, int daysAfter) {
         if(index - daysAfter < 0 || index + daysAfter >= mDataPerDays.size() ) {
