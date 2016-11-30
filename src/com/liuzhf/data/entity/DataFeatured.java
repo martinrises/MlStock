@@ -6,10 +6,10 @@ package com.liuzhf.data.entity;
 public class DataFeatured {
     private String mDate;
     private float mCurrentPrice, mAvgPrice5m, mAvgPrice15m, mAvgPrice30m, mAvgPrice60m, mAvgPrice2h, mAvgPrice1d, mAvgPrice2d, mAvgPrice4d, mAvgPrice8d, mAvgPrice16d, mAvgPrice32d, mAvgPrice64d, mAvgPrice128d, mAvgPrice256d, mAvgPrice512d;
-    private double mCurrentVolume, mAvgVolume5m, mAvgVolume15m, mAvgVolume30m, mAvgVolume60m, mAvgVolume2h, mAvgVolume1d, mAvgVolume2d, mAvgVolume4d, mAvgVolume8d, mAvgVolume16d, mAvgVolume32d, mAvgVolume64d, mAvgVolume128d, mAvgVolume256d, mAvgVolume512d;
+    private double mCurrentVolume, mAvgVolume2d, mAvgVolume4d, mAvgVolume8d, mAvgVolume16d, mAvgVolume32d, mAvgVolume64d, mAvgVolume128d, mAvgVolume256d, mAvgVolume512d;
     private boolean mIsUp;
 
-    public DataFeatured(String mDate, float mCurrentPrice, float mAvgPrice5m, float mAvgPrice15m, float mAvgPrice30m, float mAvgPrice60m, float mAvgPrice2h, float mAvgPrice1d, float mAvgPrice2d, float mAvgPrice4d, float mAvgPrice8d, float mAvgPrice16d, float mAvgPrice32d, float mAvgPrice64d, float mAvgPrice128d, float mAvgPrice256d, float mAvgPrice512d, double mCurrentVolume, double mAvgVolume5m, double mAvgVolume15m, double mAvgVolume30m, double mAvgVolume60m, double mAvgVolume2h, double mAvgVolume1d, double mAvgVolume2d, double mAvgVolume4d, double mAvgVolume8d, double mAvgVolume16d, double mAvgVolume32d, double mAvgVolume64d, double mAvgVolume128d, double mAvgVolume256d, double mAvgVolume512d, boolean mIsUp) {
+    public DataFeatured(String mDate, float mCurrentPrice, float mAvgPrice5m, float mAvgPrice15m, float mAvgPrice30m, float mAvgPrice60m, float mAvgPrice2h, float mAvgPrice1d, float mAvgPrice2d, float mAvgPrice4d, float mAvgPrice8d, float mAvgPrice16d, float mAvgPrice32d, float mAvgPrice64d, float mAvgPrice128d, float mAvgPrice256d, float mAvgPrice512d, double mCurrentVolume, double mAvgVolume2d, double mAvgVolume4d, double mAvgVolume8d, double mAvgVolume16d, double mAvgVolume32d, double mAvgVolume64d, double mAvgVolume128d, double mAvgVolume256d, double mAvgVolume512d, boolean mIsUp) {
         this.mDate = mDate;
         this.mCurrentPrice = mCurrentPrice;
         this.mAvgPrice5m = mAvgPrice5m;
@@ -28,12 +28,6 @@ public class DataFeatured {
         this.mAvgPrice256d = mAvgPrice256d;
         this.mAvgPrice512d = mAvgPrice512d;
         this.mCurrentVolume = mCurrentVolume;
-        this.mAvgVolume5m = mAvgVolume5m;
-        this.mAvgVolume15m = mAvgVolume15m;
-        this.mAvgVolume30m = mAvgVolume30m;
-        this.mAvgVolume60m = mAvgVolume60m;
-        this.mAvgVolume2h = mAvgVolume2h;
-        this.mAvgVolume1d = mAvgVolume1d;
         this.mAvgVolume2d = mAvgVolume2d;
         this.mAvgVolume4d = mAvgVolume4d;
         this.mAvgVolume8d = mAvgVolume8d;
@@ -198,54 +192,6 @@ public class DataFeatured {
         this.mCurrentVolume = mCurrentVolume;
     }
 
-    public double getmAvgVolume5m() {
-        return mAvgVolume5m;
-    }
-
-    public void setmAvgVolume5m(double mAvgVolume5m) {
-        this.mAvgVolume5m = mAvgVolume5m;
-    }
-
-    public double getmAvgVolume15m() {
-        return mAvgVolume15m;
-    }
-
-    public void setmAvgVolume15m(double mAvgVolume15m) {
-        this.mAvgVolume15m = mAvgVolume15m;
-    }
-
-    public double getmAvgVolume30m() {
-        return mAvgVolume30m;
-    }
-
-    public void setmAvgVolume30m(double mAvgVolume30m) {
-        this.mAvgVolume30m = mAvgVolume30m;
-    }
-
-    public double getmAvgVolume60m() {
-        return mAvgVolume60m;
-    }
-
-    public void setmAvgVolume60m(double mAvgVolume60m) {
-        this.mAvgVolume60m = mAvgVolume60m;
-    }
-
-    public double getmAvgVolume2h() {
-        return mAvgVolume2h;
-    }
-
-    public void setmAvgVolume2h(double mAvgVolume2h) {
-        this.mAvgVolume2h = mAvgVolume2h;
-    }
-
-    public double getmAvgVolume1d() {
-        return mAvgVolume1d;
-    }
-
-    public void setmAvgVolume1d(double mAvgVolume1d) {
-        this.mAvgVolume1d = mAvgVolume1d;
-    }
-
     public double getmAvgVolume2d() {
         return mAvgVolume2d;
     }
@@ -338,6 +284,16 @@ public class DataFeatured {
                 ", mAvgPrice128d=" + mAvgPrice128d +
                 ", mAvgPrice256d=" + mAvgPrice256d +
                 ", mAvgPrice512d=" + mAvgPrice512d +
+                ", mCurrentVolume=" + mCurrentVolume +
+                ", mAvgVolume2d=" + mAvgVolume2d +
+                ", mAvgVolume4d=" + mAvgVolume4d +
+                ", mAvgVolume8d=" + mAvgVolume8d +
+                ", mAvgVolume16d=" + mAvgVolume16d +
+                ", mAvgVolume32d=" + mAvgVolume32d +
+                ", mAvgVolume64d=" + mAvgVolume64d +
+                ", mAvgVolume128d=" + mAvgVolume128d +
+                ", mAvgVolume256d=" + mAvgVolume256d +
+                ", mAvgVolume512d=" + mAvgVolume512d +
                 ", mIsUp=" + mIsUp +
                 '}';
     }
