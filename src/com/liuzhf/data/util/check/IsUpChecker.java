@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class IsUpChecker {
 
-    private static final float SCALE = 0.3f;
+    private static final float SCALE = 0.25f;
     public static final String KEY_HIGH_PX = "high_price";
     public static final String KEY_LOW_PX = "low_price";
 

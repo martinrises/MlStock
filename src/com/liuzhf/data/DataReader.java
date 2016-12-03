@@ -43,12 +43,12 @@ public class DataReader {
 
     private static final int INDEX_DATE = 0;
     private static final int INDEX_TIME = 1;
-    private static final int INDEX_VOLUME = 2;
-    private static final int INDEX_OPEN_PX = 3;
+    private static final int INDEX_VOLUME = 7;
+    private static final int INDEX_OPEN_PX = 6;
     private static final int INDEX_LOW_PX = 4;
     private static final int INDEX_HIGH_PX = 5;
-    private static final int INDEX_CLOSING_PX = 6;
-    private static final int INDEX_TURNOVER = 7;
+    private static final int INDEX_CLOSING_PX = 3;
+    private static final int INDEX_TURNOVER = 2;
     private static String[] splitStr(String str) {
         String[] split = str.split(",");
         String[] originResult = new String[split.length + 1];
