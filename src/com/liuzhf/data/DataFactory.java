@@ -1,9 +1,6 @@
 package com.liuzhf.data;
 
-import com.liuzhf.data.entity.DataForSVM;
-import com.liuzhf.data.entity.DataPerDay;
-import com.liuzhf.data.entity.DataFeatured;
-import com.liuzhf.data.entity.RawDataItem;
+import com.liuzhf.data.entity.*;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForDay;
 import com.liuzhf.data.util.avg.AvgComputorClosePriceForMin;
 import com.liuzhf.data.util.avg.AvgComputorVolumeForDay;
@@ -19,6 +16,27 @@ import java.util.stream.Collectors;
  * Created by asus on 2016/11/19.
  */
 public class DataFactory {
+
+    public static List<DataForRNN> getDataForRNN() {
+        List<RawDataItem> rawDataItems = DataReader.readData("src/price.csv");
+        DataValidator.validateRawDataItems(rawDataItems);
+
+        List<RawDataItem> rawDataItemsFiltered = filterRawData(rawDataItems); // filter wrong data
+        DataValidator.validateRawDataItemsFilted(rawDataItemsFiltered);
+
+        List<DataPerDay> dataPerDays = getDataPerDay(rawDataItemsFiltered);
+        DataValidator.validateDataPerDay(dataPerDays);
+
+        IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
+        List<DataForRNN> dataForRNNs = new ArrayList<>();
+        int size = dataPerDays.size();
+        for(int i = 0; i != size; i++) {
+            DataPerDay data = dataPerDays.get(i);
+            dataForRNNs.add(new DataForRNN(data, isUpChecker.isUp(i, 5) ? 1 : 0));
+        }
+
+        return dataForRNNs;
+    }
 
     public static List<DataForSVM> getDataForSVM() {
 
