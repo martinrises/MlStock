@@ -82,8 +82,8 @@ public class DataWriter {
         int size = datas.size();
         for(int i = 0; i != size; i++) {
             DataForRNN data = datas.get(i);
-            String featureFilename = "./" + dirName + "/" + dirName + "_" + i;
-            String labelFilename = "./" + dirName + "/" + dirName + "_label_" + i;
+            String featureFilename = "./" + dirName + "/" + dirName + "_" + i + ".csv";
+            String labelFilename = "./" + dirName + "/" + dirName + "_label_" + i + ".csv";
 
             writeFeatureFiles(data, featureFilename);
             writeLableFiles(data, labelFilename);
