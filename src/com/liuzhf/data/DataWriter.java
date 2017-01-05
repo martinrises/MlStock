@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DataWriter {
 
-    private final static String CSV_SPERATOR = ",";
+    public final static String CSV_SPERATOR = ",";
 
     public static void checkAndWriteFile(String filename, List<DataForSVM> dataList) {
         File f = new File("./" + filename);

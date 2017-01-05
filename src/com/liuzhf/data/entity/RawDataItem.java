@@ -13,9 +13,7 @@ public class RawDataItem {
     private float mHighPx, mLowPx, mOpeningPx, mClosingPx;
     private double mTotalVolumeTraded, mTotalTurnover;
 
-    public RawDataItem() {}
-
-    public RawDataItem(String mDate, String mTime, float mHighPx, float mLowPx, float mOpeningPx, float closingPx, long mTotalVolumeTraded, long mTotalTurnover) {
+    public RawDataItem(String mDate, String mTime, float mHighPx, float mLowPx, float mOpeningPx, float closingPx, double mTotalVolumeTraded, double mTotalTurnover) {
         this.mDate = mDate;
         this.mTime = mTime;
         this.mHighPx = mHighPx;

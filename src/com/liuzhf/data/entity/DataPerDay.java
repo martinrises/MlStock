@@ -6,10 +6,10 @@ import java.util.List;
  * Created by asus on 2016/11/20.
  */
 public class DataPerDay {
-    private List<RawDataItem> mItems;
+    private List<? extends RawDataItem> mItems;
     private String mDate;
 
-    public DataPerDay(String date, List<RawDataItem> items) {
+    public DataPerDay(String date, List<? extends RawDataItem> items) {
         this.mDate = date;
         this.mItems = items;
     }
@@ -18,7 +18,7 @@ public class DataPerDay {
         return this.mDate;
     }
 
-    public List<RawDataItem> getRawItems() {
+    public List<? extends RawDataItem> getRawItems() {
         return this.mItems;
     }
 

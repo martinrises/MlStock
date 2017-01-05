@@ -6,7 +6,7 @@ import java.util.List;
  * Created by asus on 2016/11/20.
  */
 public abstract class AvgComputor<D, T extends Number> {
-    protected List<D> mItems;
+    protected List<? extends D> mItems;
 
     protected abstract T getFieldForAvg(int index);
 

@@ -38,6 +38,55 @@ public class DataFactory {
         return dataForRNNs;
     }
 
+    public static List<DataPerDay> getDataForRNN2() {
+
+        List<RawDataItem> rawDataItems = DataReader.readData("src/price.csv");
+        DataValidator.validateRawDataItems(rawDataItems);
+
+        List<RawDataItem> rawDataItemsFiltered = filterRawData(rawDataItems); // filter wrong data
+        DataValidator.validateRawDataItemsFilted(rawDataItemsFiltered);
+
+        List<DataItemForRNN> dataItems = getDataItemsForRNN(rawDataItemsFiltered);
+
+        List<DataPerDay> datas = getDataPerDay(dataItems);
+
+        return datas;
+    }
+
+    private static List<DataItemForRNN> getDataItemsForRNN(List<RawDataItem> rawDataItems) {
+        AvgComputorClosePriceForMin avgComputor = new AvgComputorClosePriceForMin(rawDataItems);
+
+        List<DataItemForRNN> dataItems = new ArrayList<>();
+
+        int size = rawDataItems.size();
+        for(int i = 0; i != size; i++) {
+            RawDataItem rawDataItem = rawDataItems.get(i);
+            dataItems.add(new DataItemForRNN(rawDataItem.getmDate(),
+                    rawDataItem.getmTime(),
+                    rawDataItem.getmHighPx(),
+                    rawDataItem.getmLowPx(),
+                    rawDataItem.getmOpeningPx(),
+                    rawDataItem.getmClosingPx(),
+                    rawDataItem.getmTotalVolumeTraded(),
+                    rawDataItem.getmTotalTurnover(),
+                    avgComputor.getAvgFromEnd(i, 3),  // 15min
+                    avgComputor.getAvgFromEnd(i, 6),  // 30min
+                    avgComputor.getAvgFromEnd(i, 12), // 1h
+                    avgComputor.getAvgFromEnd(i, 24), // 2h
+                    avgComputor.getAvgFromEnd(i, 48), // 1d
+                    avgComputor.getAvgFromEnd(i, 96), // 2d
+                    avgComputor.getAvgFromEnd(i, 192), // 4d
+                    avgComputor.getAvgFromEnd(i, 384), // 8d
+                    avgComputor.getAvgFromEnd(i, 768), // 16d
+                    avgComputor.getAvgFromEnd(i, 1536), // 32d
+                    avgComputor.getAvgFromEnd(i, 3072), // 64d
+                    avgComputor.getAvgFromEnd(i, 6144), // 128d
+                    avgComputor.getAvgFromEnd(i, 12288) // 256d
+            ));
+        }
+        return dataItems;
+    }
+
     public static List<DataForSVM> getDataForSVM() {
 
         List<RawDataItem> rawDataItems = DataReader.readData("src/price.csv");
@@ -121,12 +170,12 @@ public class DataFactory {
         return dataListFiltered;
     }
 
-    private static List<DataPerDay> getDataPerDay(List<RawDataItem> rawDataItems) {
+    private static List<DataPerDay> getDataPerDay(List<? extends RawDataItem> rawDataItems) {
         List<DataPerDay> result = new ArrayList<>();
 
         String date = "";
         ArrayList<RawDataItem> items = null;
-        Iterator<RawDataItem> it = rawDataItems.iterator();
+        Iterator<? extends RawDataItem> it = rawDataItems.iterator();
         while(it.hasNext()) {
 
             RawDataItem rawDataItem = it.next();
@@ -153,7 +202,7 @@ public class DataFactory {
         IsUpChecker isUpChecker = new IsUpChecker(dataPerDays);
         for(int i = dataPerDays.size()-1; i >= 0; i--) {
             DataPerDay dataPerDay = dataPerDays.get(i);
-            List<RawDataItem> rawItems = dataPerDay.getRawItems();
+            List<? extends RawDataItem> rawItems = dataPerDay.getRawItems();
             AvgComputorClosePriceForMin avgClosePriceForMin = new AvgComputorClosePriceForMin(rawItems);
             result.add(new DataFeatured(dataPerDay.getDate(), dataPerDay.getClosePrice(), // 当日收盘价
                     avgClosePriceForMin.getAvgFromEnd(rawItems.size() - 2, 1), // 5min前收盘价

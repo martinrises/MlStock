@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class AvgComputorClosePriceForMin extends AvgComputor<RawDataItem, Float> {
 
-    public AvgComputorClosePriceForMin(List<RawDataItem> items) {
+    public AvgComputorClosePriceForMin(List<? extends RawDataItem> items) {
         this.mItems = items;
     }
     @Override
